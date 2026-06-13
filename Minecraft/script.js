@@ -14,12 +14,28 @@ const itemData = [
   ["minecraft:command_block", "Command Block", "Blocks", "#bd8b5a"],
   ["minecraft:barrier", "Barrier", "Blocks", "#d94242"],
   ["minecraft:torch", "Torch", "Blocks", "#ffca55"],
+  ["minecraft:lantern", "Lantern", "Blocks", "#e8b95a"],
+  ["minecraft:bookshelf", "Bookshelf", "Blocks", "#9b6a38"],
+  ["minecraft:enchanting_table", "Enchanting Table", "Blocks", "#8f3ed1"],
+  ["minecraft:anvil", "Anvil", "Blocks", "#5d6265"],
+  ["minecraft:crafting_table", "Crafting Table", "Blocks", "#a86f3a"],
+  ["minecraft:furnace", "Furnace", "Blocks", "#6d6d6d"],
+  ["minecraft:chest", "Chest", "Blocks", "#b17635"],
+  ["minecraft:ender_chest", "Ender Chest", "Blocks", "#204449"],
+  ["minecraft:spawner", "Spawner", "Blocks", "#57666d"],
+  ["minecraft:tnt", "TNT", "Blocks", "#d4483c"],
+  ["minecraft:slime_block", "Slime Block", "Blocks", "#68d35f"],
+  ["minecraft:honey_block", "Honey Block", "Blocks", "#e6a83f"],
+  ["minecraft:beacon", "Beacon", "Blocks", "#bffcff"],
   ["minecraft:diamond_sword", "Diamond Sword", "Combat", "#64d9ff"],
   ["minecraft:netherite_sword", "Netherite Sword", "Combat", "#4a4148"],
   ["minecraft:bow", "Bow", "Combat", "#b77a3f"],
   ["minecraft:crossbow", "Crossbow", "Combat", "#8d633c"],
   ["minecraft:trident", "Trident", "Combat", "#5bd0d3"],
   ["minecraft:shield", "Shield", "Combat", "#9b6a42"],
+  ["minecraft:arrow", "Arrow", "Combat", "#d8d8d8"],
+  ["minecraft:spectral_arrow", "Spectral Arrow", "Combat", "#ffe071"],
+  ["minecraft:tipped_arrow", "Tipped Arrow", "Combat", "#b56cff"],
   ["minecraft:diamond_pickaxe", "Diamond Pickaxe", "Tools", "#64d9ff"],
   ["minecraft:netherite_pickaxe", "Netherite Pickaxe", "Tools", "#4a4148"],
   ["minecraft:diamond_axe", "Diamond Axe", "Tools", "#64d9ff"],
@@ -27,28 +43,50 @@ const itemData = [
   ["minecraft:fishing_rod", "Fishing Rod", "Tools", "#c28c55"],
   ["minecraft:shears", "Shears", "Tools", "#cdd4d6"],
   ["minecraft:flint_and_steel", "Flint and Steel", "Tools", "#aab0b4"],
+  ["minecraft:brush", "Brush", "Tools", "#d0aa6b"],
+  ["minecraft:compass", "Compass", "Tools", "#bf3939"],
+  ["minecraft:clock", "Clock", "Tools", "#e5bd4c"],
+  ["minecraft:lead", "Lead", "Tools", "#8b6b4a"],
+  ["minecraft:saddle", "Saddle", "Tools", "#8b4e36"],
   ["minecraft:elytra", "Elytra", "Armor", "#8f8a76"],
   ["minecraft:diamond_helmet", "Diamond Helmet", "Armor", "#64d9ff"],
   ["minecraft:diamond_chestplate", "Diamond Chestplate", "Armor", "#64d9ff"],
   ["minecraft:diamond_leggings", "Diamond Leggings", "Armor", "#64d9ff"],
   ["minecraft:diamond_boots", "Diamond Boots", "Armor", "#64d9ff"],
   ["minecraft:netherite_chestplate", "Netherite Chestplate", "Armor", "#4a4148"],
+  ["minecraft:netherite_helmet", "Netherite Helmet", "Armor", "#4a4148"],
+  ["minecraft:netherite_leggings", "Netherite Leggings", "Armor", "#4a4148"],
+  ["minecraft:netherite_boots", "Netherite Boots", "Armor", "#4a4148"],
+  ["minecraft:leather_chestplate", "Leather Chestplate", "Armor", "#9b5d35"],
   ["minecraft:golden_apple", "Golden Apple", "Food", "#ffd45d"],
   ["minecraft:enchanted_golden_apple", "Enchanted Golden Apple", "Food", "#d98cff"],
   ["minecraft:cooked_beef", "Steak", "Food", "#9d4a38"],
   ["minecraft:bread", "Bread", "Food", "#d8a75a"],
   ["minecraft:carrot", "Carrot", "Food", "#ff9a3d"],
+  ["minecraft:apple", "Apple", "Food", "#d83f3f"],
+  ["minecraft:cake", "Cake", "Food", "#f8e7d2"],
+  ["minecraft:cookie", "Cookie", "Food", "#b8783e"],
+  ["minecraft:melon_slice", "Melon Slice", "Food", "#e65555"],
+  ["minecraft:suspicious_stew", "Suspicious Stew", "Food", "#9b5d35"],
   ["minecraft:potion", "Potion", "Magic", "#b56cff"],
   ["minecraft:splash_potion", "Splash Potion", "Magic", "#b56cff"],
   ["minecraft:ender_pearl", "Ender Pearl", "Magic", "#48c49b"],
   ["minecraft:totem_of_undying", "Totem of Undying", "Magic", "#dcb55d"],
   ["minecraft:experience_bottle", "Experience Bottle", "Magic", "#8df07a"],
+  ["minecraft:enchanted_book", "Enchanted Book", "Magic", "#b24ee0"],
+  ["minecraft:amethyst_shard", "Amethyst Shard", "Magic", "#b874f0"],
+  ["minecraft:nether_star", "Nether Star", "Magic", "#e8ffff"],
   ["minecraft:firework_rocket", "Firework Rocket", "Utility", "#ff6b6b"],
   ["minecraft:bucket", "Bucket", "Utility", "#c7d0d2"],
   ["minecraft:water_bucket", "Water Bucket", "Utility", "#4aa4ff"],
   ["minecraft:lava_bucket", "Lava Bucket", "Utility", "#ff7838"],
   ["minecraft:map", "Map", "Utility", "#d6bd82"],
   ["minecraft:name_tag", "Name Tag", "Utility", "#cfcfcf"],
+  ["minecraft:armor_stand", "Armor Stand", "Utility", "#b8895a"],
+  ["minecraft:bundle", "Bundle", "Utility", "#a66f47"],
+  ["minecraft:spyglass", "Spyglass", "Utility", "#d59d4e"],
+  ["minecraft:goat_horn", "Goat Horn", "Utility", "#d8c49a"],
+  ["minecraft:music_disc_13", "Music Disc 13", "Utility", "#4b4b4b"],
 ];
 
 const enchants = [
@@ -87,6 +125,7 @@ const attributes = [
 
 const slots = ["any", "mainhand", "offhand", "head", "chest", "legs", "feet"];
 const colors = ["white", "gray", "dark_gray", "black", "red", "gold", "yellow", "green", "aqua", "blue", "light_purple", "dark_purple"];
+const fonts = ["default", "uniform", "alt", "illageralt"];
 const rarities = ["common", "uncommon", "rare", "epic"];
 const trimPatterns = ["none", "sentry", "dune", "coast", "wild", "ward", "eye", "vex", "tide", "snout", "rib", "spire", "wayfinder"];
 const trimMaterials = ["none", "iron", "copper", "gold", "diamond", "emerald", "redstone", "lapis", "amethyst", "netherite"];
@@ -110,11 +149,17 @@ function optionList(select, entries) {
   });
 }
 
-function jsonText(text, color, bold, italic) {
+function jsonText(text, color, bold, italic, extra = {}) {
   const value = { text: text || "" };
   if (color) value.color = color;
   if (bold) value.bold = true;
   if (italic) value.italic = true;
+  if (extra.underlined) value.underlined = true;
+  if (extra.strikethrough) value.strikethrough = true;
+  if (extra.obfuscated) value.obfuscated = true;
+  if (extra.font && extra.font !== "default") value.font = `minecraft:${extra.font}`;
+  if (extra.clickUrl) value.clickEvent = { action: "open_url", value: extra.clickUrl };
+  if (extra.hoverText) value.hoverEvent = { action: "show_text", contents: { text: extra.hoverText } };
   return JSON.stringify(value);
 }
 
@@ -140,8 +185,18 @@ function listFromTextarea(id) {
 
 function buildModernComponents() {
   const parts = [];
+  const itemName = $("itemName").value.trim();
+  if (itemName) parts.push(component("item_name", `'${jsonText(itemName, $("nameColor").value, false, false)}'`));
   const name = $("customName").value.trim();
-  if (name) parts.push(component("custom_name", `'${jsonText(name, $("nameColor").value, $("nameBold").checked, $("nameItalic").checked)}'`));
+  const textExtra = {
+    underlined: $("nameUnderlined").checked,
+    strikethrough: $("nameStrikethrough").checked,
+    obfuscated: $("nameObfuscated").checked,
+    font: $("nameFont").value,
+    clickUrl: $("clickUrl").value.trim(),
+    hoverText: $("hoverText").value.trim(),
+  };
+  if (name) parts.push(component("custom_name", `'${jsonText(name, $("nameColor").value, $("nameBold").checked, $("nameItalic").checked, textExtra)}'`));
   const lore = listFromTextarea("lore");
   if (lore.length) {
     parts.push(component("lore", `[${lore.map((line) => `'${jsonText(line, "gray", false, false)}'`).join(",")}]`));
@@ -173,24 +228,43 @@ function buildModernComponents() {
   if ($("unbreakable").checked) parts.push(component("unbreakable", "{}"));
   if (safeInt($("damage").value, 0, 0, 999999) > 0) parts.push(component("damage", safeInt($("damage").value, 0, 0, 999999)));
   if ($("maxDamage").value) parts.push(component("max_damage", safeInt($("maxDamage").value, 1, 1, 999999)));
+  if ($("maxStackSize").value) parts.push(component("max_stack_size", safeInt($("maxStackSize").value, 1, 1, 99)));
+  if ($("repairCost").value) parts.push(component("repair_cost", safeInt($("repairCost").value, 0, 0, 999999)));
   if ($("modelData").value) parts.push(component("custom_model_data", safeInt($("modelData").value, 0, 0, 999999)));
+  if ($("itemModel").value.trim()) parts.push(component("item_model", `"${$("itemModel").value.trim()}"`));
+  if ($("tooltipStyle").value.trim()) parts.push(component("tooltip_style", `"${$("tooltipStyle").value.trim()}"`));
+  if ($("customData").value.trim()) parts.push(component("custom_data", $("customData").value.trim()));
   if ($("rarity").value !== "common") parts.push(component("rarity", `"${$("rarity").value}"`));
   if ($("enchantmentGlint").checked) parts.push(component("enchantment_glint_override", "true"));
   if ($("hideTooltip").checked) parts.push(component("hide_tooltip", "{}"));
+  if ($("hideAdditionalTooltip").checked) parts.push(component("hide_additional_tooltip", "{}"));
+  if ($("fireResistant").checked) parts.push(component("fire_resistant", "{}"));
+  if ($("glider").checked) parts.push(component("glider", "{}"));
   return parts.length ? `[${parts.join(",")}]` : "";
 }
 
 function buildLegacyNbt() {
   const tag = {};
   const display = {};
+  const itemName = $("itemName").value.trim();
+  if (itemName) display.Name = jsonText(itemName, $("nameColor").value, false, false);
   const name = $("customName").value.trim();
-  if (name) display.Name = jsonText(name, $("nameColor").value, $("nameBold").checked, $("nameItalic").checked);
+  if (name) display.Name = jsonText(name, $("nameColor").value, $("nameBold").checked, $("nameItalic").checked, {
+    underlined: $("nameUnderlined").checked,
+    strikethrough: $("nameStrikethrough").checked,
+    obfuscated: $("nameObfuscated").checked,
+    font: $("nameFont").value,
+    clickUrl: $("clickUrl").value.trim(),
+    hoverText: $("hoverText").value.trim(),
+  });
   const lore = listFromTextarea("lore");
   if (lore.length) display.Lore = lore.map((line) => jsonText(line, "gray", false, false));
   if (Object.keys(display).length) tag.display = display;
   if (state.enchants.length) tag.Enchantments = state.enchants.map((e) => ({ id: e.id, lvl: e.level }));
   if ($("unbreakable").checked) tag.Unbreakable = 1;
   if (safeInt($("damage").value, 0, 0, 999999) > 0) tag.Damage = safeInt($("damage").value, 0, 0, 999999);
+  if ($("repairCost").value) tag.RepairCost = safeInt($("repairCost").value, 0, 0, 999999);
+  if ($("modelData").value) tag.CustomModelData = safeInt($("modelData").value, 0, 0, 999999);
   const raw = JSON.stringify(tag).replace(/"([A-Za-z0-9_]+)":/g, "$1:");
   return Object.keys(tag).length ? raw : "";
 }
@@ -339,6 +413,7 @@ function importCommand() {
 
 function init() {
   optionList($("nameColor"), colors);
+  optionList($("nameFont"), fonts);
   optionList($("enchantSelect"), enchants);
   optionList($("attributeType"), attributes);
   optionList($("attributeSlot"), slots);

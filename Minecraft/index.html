@@ -126,10 +126,17 @@
 
             <div class="detail-tab active" data-detail-panel="text">
               <div class="form-grid">
+                <label>Item Name <input id="itemName" placeholder="Simple item name" /></label>
                 <label>Custom Name <input id="customName" placeholder="Epic Item" /></label>
                 <label>Name Color <select id="nameColor"></select></label>
+                <label>Font <select id="nameFont"></select></label>
                 <label class="toggle"><input id="nameBold" type="checkbox" /> Bold</label>
                 <label class="toggle"><input id="nameItalic" type="checkbox" /> Italic</label>
+                <label class="toggle"><input id="nameUnderlined" type="checkbox" /> Underlined</label>
+                <label class="toggle"><input id="nameStrikethrough" type="checkbox" /> Strikethrough</label>
+                <label class="toggle"><input id="nameObfuscated" type="checkbox" /> Obfuscated</label>
+                <label>Click URL <input id="clickUrl" placeholder="https://example.com" /></label>
+                <label>Hover Text <input id="hoverText" placeholder="Tooltip text" /></label>
               </div>
               <label>Lore Lines <textarea id="lore" rows="4" placeholder="Line 1&#10;Line 2"></textarea></label>
             </div>
@@ -193,10 +200,18 @@
               <div class="form-grid">
                 <label>Damage <input id="damage" type="number" min="0" value="0" /></label>
                 <label>Max Damage <input id="maxDamage" type="number" min="1" placeholder="default" /></label>
+                <label>Max Stack Size <input id="maxStackSize" type="number" min="1" max="99" placeholder="default" /></label>
+                <label>Repair Cost <input id="repairCost" type="number" min="0" placeholder="0" /></label>
                 <label>Custom Model Data <input id="modelData" type="number" min="0" placeholder="0" /></label>
+                <label>Item Model <input id="itemModel" placeholder="minecraft:diamond_sword" /></label>
+                <label>Tooltip Style <input id="tooltipStyle" placeholder="minecraft:default" /></label>
                 <label>Rarity <select id="rarity"></select></label>
+                <label>Custom Data <textarea id="customData" rows="3" placeholder="{emilio:1b}"></textarea></label>
                 <label class="toggle"><input id="enchantmentGlint" type="checkbox" /> Force glint</label>
                 <label class="toggle"><input id="hideTooltip" type="checkbox" /> Hide tooltip</label>
+                <label class="toggle"><input id="hideAdditionalTooltip" type="checkbox" /> Hide additional tooltip</label>
+                <label class="toggle"><input id="fireResistant" type="checkbox" /> Fire resistant</label>
+                <label class="toggle"><input id="glider" type="checkbox" /> Glider</label>
               </div>
             </div>
           </article>
