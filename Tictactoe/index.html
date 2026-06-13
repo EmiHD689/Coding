@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tic Tac Toe | Emilio Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="game-surface" aria-label="Tic Tac Toe Spiel">
+        <div class="brand-row">
+          <div>
+            <p class="eyebrow">Emilio Edition</p>
+            <h1>Tic Tac Toe</h1>
+          </div>
+          <button class="icon-button" id="soundToggle" type="button" aria-label="Sound umschalten" title="Sound umschalten">
+            <span class="sound-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="mode-panel" aria-label="Spielmodus">
+          <button class="mode-button active" type="button" data-mode="single">
+            <span>Singleplayer</span>
+            <small>gegen KI</small>
+          </button>
+          <button class="mode-button" type="button" data-mode="multi">
+            <span>Multiplayer</span>
+            <small>lokal 1v1</small>
+          </button>
+        </div>
+
+        <div class="status-card" aria-live="polite">
+          <span id="roundStatus">X ist am Zug</span>
+          <strong id="turnBadge">Player X</strong>
+        </div>
+
+        <div class="board-wrap">
+          <div class="win-line" id="winLine" aria-hidden="true"></div>
+          <div class="board" id="board" role="grid" aria-label="Spielfeld">
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 1" data-index="0"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 2" data-index="1"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 3" data-index="2"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 4" data-index="3"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 5" data-index="4"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 6" data-index="5"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 7" data-index="6"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 8" data-index="7"></button>
+            <button class="cell" type="button" role="gridcell" aria-label="Feld 9" data-index="8"></button>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="primary-button" id="newRound" type="button">Neue Runde</button>
+          <button class="ghost-button" id="resetScore" type="button">Score resetten</button>
+        </div>
+      </section>
+
+      <aside class="side-panel" aria-label="Spielinformationen">
+        <div class="score-grid">
+          <div class="score-tile x">
+            <span>Player X</span>
+            <strong id="scoreX">0</strong>
+          </div>
+          <div class="score-tile draw">
+            <span>Draw</span>
+            <strong id="scoreDraw">0</strong>
+          </div>
+          <div class="score-tile o">
+            <span id="playerOLabel">KI O</span>
+            <strong id="scoreO">0</strong>
+          </div>
+        </div>
+
+        <div class="settings">
+          <label for="difficulty">KI-Level</label>
+          <select id="difficulty">
+            <option value="easy">Locker</option>
+            <option value="medium">Smart</option>
+            <option value="hard" selected>Unschlagbar</option>
+          </select>
+        </div>
+
+        <div class="mini-console">
+          <span class="pulse"></span>
+          <p id="consoleText">Bereit. Mach den ersten Move.</p>
+        </div>
+      </aside>
+    </main>
+
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+    <script src="./script.js"></script>
+  </body>
+</html>
