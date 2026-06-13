@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Give Item Generator | Emilio Coding</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#app"><span class="brand-block" aria-hidden="true"></span><span>Emilio Minecraft</span></a>
+      <nav class="nav" aria-label="Generator Bereiche">
+        <a href="#itemPicker">Item</a>
+        <a href="#commandPanel">Command</a>
+        <a href="#detailsPanel">Details</a>
+      </nav>
+    </header>
+
+    <main id="app" class="app">
+      <section class="hero">
+        <p class="eyebrow">Minecraft Give Command Generator</p>
+        <h1>Give Item Generator</h1>
+        <p class="lead">Item suchen, Komponenten einstellen, Enchantments stapeln und den fertigen Minecraft-Command kopieren.</p>
+      </section>
+
+      <section class="workspace">
+        <aside class="picker" id="itemPicker" aria-label="Item Suche">
+          <div class="panel-head">
+            <h2>Item Search</h2>
+            <span id="itemCount">0 Items</span>
+          </div>
+          <div class="searchbox">
+            <input id="itemSearch" type="search" placeholder="Search item or block..." autocomplete="off" />
+            <button id="clearSearch" type="button" title="Suche leeren" aria-label="Suche leeren">x</button>
+          </div>
+          <div class="chips" id="categoryChips" aria-label="Kategorien"></div>
+          <div class="item-list" id="itemList" role="listbox" aria-label="Gefundene Items"></div>
+        </aside>
+
+        <section class="generator">
+          <article class="panel selected-item">
+            <div class="item-preview" id="itemPreview" aria-hidden="true"></div>
+            <div>
+              <p class="muted-label">Selected Item</p>
+              <h2 id="selectedItemName">Cobblestone</h2>
+              <p id="selectedItemId">minecraft:cobblestone</p>
+            </div>
+          </article>
+
+          <article class="panel" id="commandPanel">
+            <div class="tabs" role="tablist" aria-label="Command Haupttabs">
+              <button class="tab active" type="button" data-main-tab="command">Command</button>
+              <button class="tab" type="button" data-main-tab="targets">Targets</button>
+              <button class="tab" type="button" data-main-tab="import">Import</button>
+              <button class="tab" type="button" data-main-tab="settings">Settings</button>
+            </div>
+
+            <div class="main-tab active" data-main-panel="command">
+              <div class="form-grid tight">
+                <label>Amount <input id="amount" type="number" min="1" max="99" value="1" /></label>
+                <label>Minecraft Version
+                  <select id="version">
+                    <option value="1.21.5">Java 1.21.5+</option>
+                    <option value="1.21">Java 1.21</option>
+                    <option value="1.20.5">Java 1.20.5</option>
+                    <option value="1.20.4">Java 1.20.2 - 1.20.4</option>
+                    <option value="1.20">Java 1.20</option>
+                    <option value="1.19">Java 1.19</option>
+                    <option value="1.18">Java 1.18</option>
+                    <option value="1.17">Java 1.17</option>
+                    <option value="1.16">Java 1.16</option>
+                    <option value="1.15">Java 1.15</option>
+                    <option value="1.14">Java 1.14</option>
+                    <option value="1.13">Java 1.13</option>
+                    <option value="1.12">Java 1.12</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="main-tab" data-main-panel="targets">
+              <div class="selector-grid">
+                <button class="selector active" type="button" data-target="@p">@p nearest</button>
+                <button class="selector" type="button" data-target="@a">@a all</button>
+                <button class="selector" type="button" data-target="@r">@r random</button>
+                <button class="selector" type="button" data-target="@s">@s self</button>
+              </div>
+              <label>Custom Target <input id="target" value="@a" /></label>
+            </div>
+
+            <div class="main-tab" data-main-panel="import">
+              <label>Paste Give Command
+                <textarea id="importCommand" rows="4" placeholder="/give @p minecraft:diamond_sword[custom_name='...'] 1"></textarea>
+              </label>
+              <button class="secondary" id="importBtn" type="button">Import versuchen</button>
+            </div>
+
+            <div class="main-tab" data-main-panel="settings">
+              <div class="form-grid tight">
+                <label class="toggle"><input id="useComponents" type="checkbox" checked /> Modern components</label>
+                <label class="toggle"><input id="prettyJson" type="checkbox" /> Pretty JSON text</label>
+                <label class="toggle"><input id="autoCopy" type="checkbox" /> Auto copy on change</label>
+                <label class="toggle"><input id="showNamespace" type="checkbox" checked /> Show namespace</label>
+              </div>
+            </div>
+
+            <textarea class="command-output" id="commandOutput" readonly spellcheck="false"></textarea>
+            <div class="button-row">
+              <button class="primary" id="copyCommand" type="button">Copy Command</button>
+              <button class="secondary" id="saveData" type="button">Save Data</button>
+              <button class="secondary danger" id="resetAll" type="button">Reset</button>
+            </div>
+          </article>
+
+          <article class="panel" id="detailsPanel">
+            <div class="tabs wrap" role="tablist" aria-label="Item Details">
+              <button class="tab active" type="button" data-detail-tab="text">Text</button>
+              <button class="tab" type="button" data-detail-tab="enchants">Enchantments</button>
+              <button class="tab" type="button" data-detail-tab="attributes">Attributes</button>
+              <button class="tab" type="button" data-detail-tab="rules">Rules</button>
+              <button class="tab" type="button" data-detail-tab="food">Food</button>
+              <button class="tab" type="button" data-detail-tab="tool">Tool</button>
+              <button class="tab" type="button" data-detail-tab="equip">Equip</button>
+              <button class="tab" type="button" data-detail-tab="extras">Extras</button>
+            </div>
+
+            <div class="detail-tab active" data-detail-panel="text">
+              <div class="form-grid">
+                <label>Custom Name <input id="customName" placeholder="Epic Item" /></label>
+                <label>Name Color <select id="nameColor"></select></label>
+                <label class="toggle"><input id="nameBold" type="checkbox" /> Bold</label>
+                <label class="toggle"><input id="nameItalic" type="checkbox" /> Italic</label>
+              </div>
+              <label>Lore Lines <textarea id="lore" rows="4" placeholder="Line 1&#10;Line 2"></textarea></label>
+            </div>
+
+            <div class="detail-tab" data-detail-panel="enchants">
+              <div class="inline-builder">
+                <select id="enchantSelect"></select>
+                <input id="enchantLevel" type="number" min="1" max="255" value="1" />
+                <button class="secondary" id="addEnchant" type="button">Add</button>
+              </div>
+              <div class="token-list" id="enchantList"></div>
+              <label class="toggle"><input id="hideEnchantments" type="checkbox" /> Hide enchantments in tooltip</label>
+            </div>
+
+            <div class="detail-tab" data-detail-panel="attributes">
+              <div class="inline-builder wide">
+                <select id="attributeType"></select>
+                <input id="attributeValue" type="number" value="1" step="0.1" />
+                <select id="attributeSlot"></select>
+                <button class="secondary" id="addAttribute" type="button">Add</button>
+              </div>
+              <div class="token-list" id="attributeList"></div>
+            </div>
+
+            <div class="detail-tab" data-detail-panel="rules">
+              <div class="form-grid">
+                <label>Can Break <textarea id="canBreak" rows="4" placeholder="minecraft:stone&#10;minecraft:oak_log"></textarea></label>
+                <label>Can Place On <textarea id="canPlaceOn" rows="4" placeholder="minecraft:grass_block&#10;minecraft:stone"></textarea></label>
+              </div>
+            </div>
+
+            <div class="detail-tab" data-detail-panel="food">
+              <div class="form-grid">
+                <label class="toggle"><input id="isFood" type="checkbox" /> Enable food component</label>
+                <label>Nutrition <input id="nutrition" type="number" min="0" value="4" /></label>
+                <label>Saturation <input id="saturation" type="number" min="0" step="0.1" value="2.4" /></label>
+                <label>Eat Seconds <input id="eatSeconds" type="number" min="0.1" step="0.1" value="1.6" /></label>
+                <label class="toggle"><input id="alwaysEat" type="checkbox" /> Always edible</label>
+              </div>
+            </div>
+
+            <div class="detail-tab" data-detail-panel="tool">
+              <div class="form-grid">
+                <label class="toggle"><input id="isTool" type="checkbox" /> Enable tool component</label>
+                <label>Mining Speed <input id="miningSpeed" type="number" min="0" step="0.1" value="4" /></label>
+                <label>Damage Per Block <input id="damagePerBlock" type="number" min="0" value="1" /></label>
+                <label>Correct Blocks <input id="correctBlocks" placeholder="minecraft:mineable/pickaxe" /></label>
+              </div>
+            </div>
+
+            <div class="detail-tab" data-detail-panel="equip">
+              <div class="form-grid">
+                <label>Equipment Slot <select id="equipSlot"></select></label>
+                <label>Armor Trim Pattern <select id="trimPattern"></select></label>
+                <label>Trim Material <select id="trimMaterial"></select></label>
+                <label class="toggle"><input id="unbreakable" type="checkbox" /> Unbreakable</label>
+              </div>
+            </div>
+
+            <div class="detail-tab" data-detail-panel="extras">
+              <div class="form-grid">
+                <label>Damage <input id="damage" type="number" min="0" value="0" /></label>
+                <label>Max Damage <input id="maxDamage" type="number" min="1" placeholder="default" /></label>
+                <label>Custom Model Data <input id="modelData" type="number" min="0" placeholder="0" /></label>
+                <label>Rarity <select id="rarity"></select></label>
+                <label class="toggle"><input id="enchantmentGlint" type="checkbox" /> Force glint</label>
+                <label class="toggle"><input id="hideTooltip" type="checkbox" /> Hide tooltip</label>
+              </div>
+            </div>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Kopiert</div>
+    <script src="./script.js"></script>
+  </body>
+</html>
