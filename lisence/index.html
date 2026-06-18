@@ -16,6 +16,7 @@
     }
 
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       background: var(--bg);
@@ -47,12 +48,14 @@
 
     h2 { margin: 0 0 16px; font-size: 16px; }
     label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 13px; }
+
     input, select {
       width: 100%;
       height: 36px;
       border: 1px solid #bfc9d6;
       padding: 0 10px;
       font: inherit;
+      background: #fff;
     }
 
     button {
@@ -78,9 +81,7 @@
       align-items: end;
     }
 
-    .settings {
-      grid-template-columns: 1fr 1fr;
-    }
+    .settings { grid-template-columns: 1fr 1fr; }
 
     .actions {
       display: flex;
@@ -105,7 +106,6 @@
     th { color: var(--muted); font-weight: 600; }
     .status { min-height: 22px; margin-top: 12px; color: var(--muted); }
     .hint { margin: -4px 0 16px; color: var(--muted); line-height: 1.45; }
-    .danger { color: var(--red); }
     .key-cell { min-width: 210px; }
     .hardware-cell { min-width: 280px; }
     .small-actions { display: flex; gap: 6px; }
@@ -119,15 +119,15 @@
 <body>
   <header>
     <h1>Emilios OP Autoclicker Lizenzen</h1>
-    <p>Keys erstellen, an Hardware binden, deaktivieren oder löschen.</p>
+    <p>Keys erstellen, an Hardware binden, deaktivieren oder loeschen.</p>
   </header>
 
   <main>
     <section>
       <h2>GitHub speichern</h2>
       <p class="hint">
-        Reihenfolge: <b>Lizenzen laden</b>, Key bearbeiten oder hinzufügen, dann <b>Lizenzen speichern</b>.
-        Der Token braucht für <b>EmiHD689/Coding</b> die Berechtigung <b>Contents: Read and write</b>.
+        Token eintragen und Lizenzen laden. Danach werden neue Keys und Aenderungen automatisch gespeichert.
+        Der Token braucht fuer <b>EmiHD689/Coding</b> die Berechtigung <b>Contents: Read and write</b>.
       </p>
       <div class="grid settings">
         <div>
@@ -141,7 +141,7 @@
       </div>
       <div class="actions">
         <button id="load">Lizenzen laden</button>
-        <button id="save">Lizenzen speichern</button>
+        <button id="save">Jetzt speichern</button>
         <button class="secondary" id="remember">Token merken</button>
       </div>
       <div class="status" id="status"></div>
@@ -179,7 +179,7 @@
       </div>
       <div class="actions">
         <button id="generate">Key generieren</button>
-        <button id="add">Hinzufügen</button>
+        <button id="add">Hinzufuegen</button>
       </div>
     </section>
 
@@ -203,7 +203,15 @@
 
   <script>
     const repo = { owner: "EmiHD689", name: "Coding", path: "lisence/licenses.json" };
-    const state = { sha: null, licenses: [] };
+    const state = {
+      sha: null,
+      licenses: [],
+      dirty: false,
+      saving: false,
+      pendingSave: false
+    };
+    let saveTimer = null;
+
     const $ = id => document.getElementById(id);
     const status = text => $("status").textContent = text;
 
@@ -220,10 +228,28 @@
     function authHeaders() {
       const headers = { Accept: "application/vnd.github+json" };
       const token = $("token").value.trim();
-      if (token) {
-        headers.Authorization = `Bearer ${token}`;
-      }
+      if (token) headers.Authorization = `Bearer ${token}`;
       return headers;
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function normalizeLicense(item) {
+      return {
+        key: item.key || "",
+        name: item.name || "",
+        hardwareId: item.hardwareId || null,
+        enabled: item.enabled !== false,
+        expiresUtc: item.expiresUtc || null
+      };
     }
 
     function render() {
@@ -244,7 +270,7 @@
           <td>
             <div class="small-actions">
               <button class="secondary" data-reset="${index}">Reset</button>
-              <button class="secondary" data-delete="${index}">Löschen</button>
+              <button class="secondary" data-delete="${index}">Loeschen</button>
             </div>
           </td>
         `;
@@ -252,20 +278,13 @@
       });
     }
 
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[char]));
-    }
-
-    $("rows").addEventListener("input", event => {
+    function applyRowChange(event) {
       const field = event.target.dataset.field;
       if (!field) return;
+
       const item = state.licenses[Number(event.target.dataset.index)];
+      if (!item) return;
+
       if (field === "enabled") {
         item.enabled = event.target.value === "true";
       } else if (field === "expiresUtc") {
@@ -275,13 +294,19 @@
       } else {
         item[field] = event.target.value;
       }
-    });
+
+      queueSave("Aenderung erkannt, speichere gleich...");
+    }
+
+    $("rows").addEventListener("input", applyRowChange);
+    $("rows").addEventListener("change", applyRowChange);
 
     $("rows").addEventListener("click", event => {
       const resetIndex = event.target.dataset.reset;
       if (resetIndex !== undefined) {
         state.licenses[Number(resetIndex)].hardwareId = null;
         render();
+        queueSave("Hardware-Bindung geloescht, speichere gleich...");
         return;
       }
 
@@ -289,6 +314,7 @@
       if (deleteIndex === undefined) return;
       state.licenses.splice(Number(deleteIndex), 1);
       render();
+      queueSave("Key geloescht, speichere gleich...");
     });
 
     $("generate").onclick = () => $("key").value = randomKey();
@@ -306,6 +332,7 @@
       $("hardwareId").value = "";
       $("expires").value = "";
       render();
+      queueSave("Key hinzugefuegt, speichere gleich...");
     };
 
     $("remember").onclick = () => {
@@ -314,50 +341,112 @@
     };
 
     $("load").onclick = async () => {
+      await loadLicenses();
+    };
+
+    $("save").onclick = async () => {
+      await saveLicenses(true);
+    };
+
+    function queueSave(message) {
+      state.dirty = true;
+      status(message);
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => {
+        saveLicenses(false);
+      }, 900);
+    }
+
+    async function loadLicenses() {
       status("Lade...");
       const response = await fetch(`${apiUrl()}?ref=${encodeURIComponent($("branch").value.trim())}`, {
         headers: authHeaders()
       });
       if (!response.ok) {
         status(await githubError(response, "Laden fehlgeschlagen."));
-        return;
+        return false;
       }
+
       const data = await response.json();
       state.sha = data.sha;
       const json = JSON.parse(atob(data.content.replace(/\n/g, "")));
-      state.licenses = json.licenses || [];
+      state.licenses = (json.licenses || []).map(normalizeLicense);
+      state.dirty = false;
       render();
-      status("Geladen.");
-    };
+      status("Geladen. Aenderungen werden automatisch gespeichert.");
+      return true;
+    }
 
-    $("save").onclick = async () => {
+    async function ensureCurrentSha() {
+      if (state.sha) return true;
+
+      const response = await fetch(`${apiUrl()}?ref=${encodeURIComponent($("branch").value.trim())}`, {
+        headers: authHeaders()
+      });
+      if (!response.ok) {
+        status(await githubError(response, "Konnte aktuelle Datei-SHA nicht laden."));
+        return false;
+      }
+
+      const data = await response.json();
+      state.sha = data.sha;
+      return true;
+    }
+
+    async function saveLicenses(manual) {
       if (!$("token").value.trim()) {
-        status("Zum Speichern musst du deinen GitHub Token einfügen.");
+        status("Zum Speichern musst du deinen GitHub Token einfuegen.");
         return;
       }
 
+      if (state.saving) {
+        state.pendingSave = true;
+        return;
+      }
+
+      clearTimeout(saveTimer);
+      if (!state.dirty && !manual) return;
+
+      state.saving = true;
       status("Speichere...");
+
+      if (!await ensureCurrentSha()) {
+        state.saving = false;
+        return;
+      }
+
       const content = btoa(unescape(encodeURIComponent(JSON.stringify({ licenses: state.licenses }, null, 2))));
       const body = {
         message: "Update autoclicker licenses",
         content,
-        branch: $("branch").value.trim()
+        branch: $("branch").value.trim(),
+        sha: state.sha
       };
-      if (state.sha) body.sha = state.sha;
 
       const response = await fetch(apiUrl(), {
         method: "PUT",
         headers: authHeaders(),
         body: JSON.stringify(body)
       });
+
       if (!response.ok) {
         status(await githubError(response, "Speichern fehlgeschlagen."));
+        state.saving = false;
         return;
       }
+
       const data = await response.json();
       state.sha = data.content.sha;
+      state.dirty = false;
+      state.saving = false;
       status("Gespeichert.");
-    };
+
+      if (state.pendingSave) {
+        state.pendingSave = false;
+        state.dirty = true;
+        queueSave("Weitere Aenderung erkannt, speichere gleich...");
+      }
+    }
 
     async function githubError(response, fallback) {
       try {
@@ -371,6 +460,18 @@
     $("token").value = localStorage.getItem("licenseAdminToken") || "";
     $("key").value = randomKey();
     render();
+
+    if ($("token").value.trim()) {
+      loadLicenses();
+    } else {
+      status("Token einfuegen und Lizenzen laden. Danach werden Aenderungen automatisch gespeichert.");
+    }
+
+    window.addEventListener("beforeunload", event => {
+      if (!state.dirty) return;
+      event.preventDefault();
+      event.returnValue = "";
+    });
   </script>
 </body>
 </html>
