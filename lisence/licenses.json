@@ -1,3 +1,11 @@
 {
-  "licenses": []
+  "licenses": [
+    {
+      "key": "EMILIOSKEY",
+      "name": "Emilios Key",
+      "hardwareId": "78275EEDBF8744EFD0698A57AFCB30319949D6008531701EFAA9F526AD933A5E",
+      "enabled": true,
+      "expiresUtc": null
+    }
+  ]
 }
