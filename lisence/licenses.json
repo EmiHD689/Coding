@@ -6,6 +6,13 @@
       "hardwareId": "6E30857039D76BC02414A7B6D2BAA21ED262DCFC0F16417FADA38C187B3D19F7",
       "enabled": true,
       "expiresUtc": null
+    },
+    {
+      "key": "MINECRAFT",
+      "name": "Minecraft",
+      "hardwareId": "6E30857039D76BC02414A7B6D2BAA21ED262DCFC0F16417FADA38C187B3D19F7",
+      "enabled": true,
+      "expiresUtc": null
     }
   ]
 }
